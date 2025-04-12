@@ -7,7 +7,7 @@ ppositions = []
 cpositions = []
 
 def drawboard():
-    print(f"{board[0]}|{board[1]}|{board[2]}\n{board[3]}|{board[4]}|{board[5]}\n{board[6]}|{board[7]}|{board[8]}")
+    print(f"{board[0]}|{board[1]}|{board[2]}\n-----\n{board[3]}|{board[4]}|{board[5]}\n-----\n{board[6]}|{board[7]}|{board[8]}")
 
 def askturn(turn):
     while True:
