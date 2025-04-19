@@ -7,9 +7,9 @@ screenheight = 640
 pposx = 0
 pposy = 0
 bgcolor = pygame.Color(253,56,91)
-imgPlayer = pygame.image.load("Python/protoygame/content/images/41822.jpg")
+imgPlayer = pygame.image.load("Python/Dodge/content/images/41822.jpg")
 imgPlayer = pygame.transform.scale(imgPlayer, (200, 200))
-imgSky = pygame.image.load("Python/protoygame/content/images/pexels-pixabay-53594.jpg")
+imgSky = pygame.image.load("Python/Dodge/content/images/pexels-pixabay-53594.jpg")
 fps = 30
 window = pygame.display.set_mode( ( screenwidth,screenheight ) )
 pygame.display.set_caption( "ProtoPygame" )
