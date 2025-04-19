@@ -29,9 +29,16 @@ bgcolor = pygame.Color(253,56,91)
 imgPlayer = pygame.image.load("Python/Dodge/content/images/41822.jpg").convert_alpha()
 imgPlayer = pygame.transform.scale(imgPlayer, (100, 100))
 imgSky = pygame.image.load("Python/Dodge/content/images/pexels-pixabay-53594.jpg").convert()
+player_rect = imgPlayer.get_rect()
+player_rect.topleft = (pposx, pposy)
 fps = 30
 enemy_spawn_timer = 0
 done = False
+def collision():
+    global done
+    for i, enemy in enumerate(enemies):
+        if player_rect.colliderect(enemy.rect):
+            done = True
 while done == False:
     window.fill(bgcolor)
     window.blit(imgSky, (0, 0))
@@ -53,5 +60,7 @@ while done == False:
     for event in pygame.event.get():
         if event.type == QUIT:
             done = True
+    collision()
+    player_rect.topleft = (pposx, pposy)
     pygame.display.update()
     timer.tick(fps)
