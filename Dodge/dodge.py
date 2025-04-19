@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 from pygame.locals import *
 pygame.init()
 timer = pygame.time.Clock()
@@ -7,36 +7,49 @@ index = 0
 screenwidth = 640
 screenheight = 640
 window = pygame.display.set_mode( ( screenwidth,screenheight ) )
-def produce_enemy(x, y):
-    imgEnemy = pygame.image.load("Python/Dodge/content/images/enemy.jpg")
-    imgEnemy = pygame.transform.scale(imgEnemy, (100,100))
-    enemyproduced = window.blit(imgEnemy, (x, y))
-    enemies.append(enemyproduced)
-    enemyproduced.x = x
-    enemyproduced.y = y
-pposx = 0
-pposy = 0
+pygame.display.set_caption( "Dodge" )
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.image.load("Python/Dodge/content/images/enemy.jpg").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (100, 100))
+        self.image = pygame.transform.rotate(self.image, 180)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+def produce_enemy():
+    x = random.randint(0, screenwidth - 100)
+    y = -100 
+    enemy = Enemy(x, y)
+    enemies.append(enemy)
+pposx = 270
+pposy = 530
 bgcolor = pygame.Color(253,56,91)
-imgPlayer = pygame.image.load("Python/Dodge/content/images/41822.jpg")
+imgPlayer = pygame.image.load("Python/Dodge/content/images/41822.jpg").convert_alpha()
 imgPlayer = pygame.transform.scale(imgPlayer, (100, 100))
-imgSky = pygame.image.load("Python/Dodge/content/images/pexels-pixabay-53594.jpg")
+imgSky = pygame.image.load("Python/Dodge/content/images/pexels-pixabay-53594.jpg").convert()
 fps = 30
-pygame.display.set_caption( "ProtoPygame" )
+enemy_spawn_timer = 0
 done = False
 while done == False:
     window.fill(bgcolor)
     window.blit(imgSky, (0, 0))
     window.blit(imgPlayer, (pposx, pposy))
-    produce_enemy(100, 100)
+    enemy_spawn_timer += 1
+    if enemy_spawn_timer >=fps:
+        produce_enemy()
+        enemy_spawn_timer = 0
+    for enemy in enemies:
+        window.blit(enemy.image, enemy.rect)
+        enemy.rect.y += 5 
     keys = pygame.key.get_pressed()
-    if keys[K_UP]:
-        pposy -= 5
-    elif keys[K_DOWN]:
-        pposy += 5
-    elif keys[K_LEFT]:
-        pposx -= 5
+    if keys[K_LEFT]:
+        if pposx>=0:
+            pposx -= 5
     elif keys[K_RIGHT]:
-        pposx += 5
+        if pposx <=540:
+            pposx += 5
     for event in pygame.event.get():
         if event.type == QUIT:
             done = True
