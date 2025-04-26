@@ -8,6 +8,11 @@ screenwidth = 640
 screenheight = 640
 window = pygame.display.set_mode( ( screenwidth,screenheight ) )
 pygame.display.set_caption( "Dodge" )
+score = 0
+font = pygame.font.Font(None, 30)
+text_surface = font.render("Score:"+str(score), True, (0, 0, 0))
+window.blit(text_surface, (10, 10))
+pygame.display.flip()
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -62,5 +67,9 @@ while done == False:
             done = True
     collision()
     player_rect.topleft = (pposx, pposy)
+    score += 1
+    text_surface = font.render("Score:"+str(score), True, (0, 0, 0))
+    window.blit(text_surface, (10, 10))
     pygame.display.update()
     timer.tick(fps)
+print("Score: "+str(score))
