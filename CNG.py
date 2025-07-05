@@ -44,8 +44,8 @@ def playerturn():
             print("You played a forced draw card! The computer draws a card.")
     else:
         print("Invalid choice. Please try again.")
-def ai(result):
-    global cchoice
+def ai(): 
+    global cchoice, topcard 
     valid_choices = [card for card in computer if card.split()[0] == topcard.split()[0] or card.split()[1] == topcard.split()[1]]
     if valid_choices:
         cchoice = choice(valid_choices)
@@ -55,7 +55,7 @@ def ai(result):
         cchoice = computer[-1]
 def computerturn():
      global topcard, cskip, cchoice
-     ai(cchoice)
+     ai()
      print(f"Computer plays {cchoice}.")
      topcard = cchoice
      print(f"The new top card is {topcard}.")
