@@ -2,18 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"name": "TicTacToe",
-			"path": "../TicTacToe"
-		},
-		{
-			"name": "Frogger",
-			"path": "../Frogger"
-		},
-		{
-			"name": "Ask-The-8-Ball",
-			"path": "../Ask-The-8-Ball"
 		}
 	],
 	"settings": {}
