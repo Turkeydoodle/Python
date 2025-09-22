@@ -10,21 +10,39 @@ black_positions = {
 }
 def computermove():
     def computerchoose():
-        return random.choice(['br', 'bn'])
+        return random.choice(['br', 'bn', 'bp'])
+    def pawn():
+        global moved
+        pawnchosen = random.choice(['bp1', 'bp2', 'bp3', 'bp4', 'bp5', 'bp6', 'bp7', 'bp8'])
+        start_pos = black_positions[pawnchosen]
+        new_pos = start_pos - random.choice([-8, -16, -9, -7])
     def knight():
+        global moved
         knightchosen = random.choice(['bn1', 'bn2'])
-        direction = random.choice(['up', 'down', 'left', 'right'])
         start_pos = black_positions[knightchosen]
-        path_clear = True
-        new_pos = start_pos
-        possiblekinghtmoves = [start_pos + 15, start_pos + 17, start_pos - 15, start_pos - 17, start_pos -6, start_pos -10, start_pos +6, start_pos +10]
-        new_pos = random.choice(possiblekinghtmoves)
-        if new_pos in black_positions.values():
-            path_clear = False 
-        if path_clear and new_pos > 0 and new_pos <= 64:
+        start_rank = (start_pos - 1) // 8
+        start_file = (start_pos - 1) % 8
+        knight_moves = [(-2, -1), (-2, 1), (-1, -2), (-1, 2),
+                        (1, -2), (1, 2), (2, -1), (2, 1)]
+        valid_moves = []
+        for dr, df in knight_moves:
+            new_rank = start_rank + dr
+            new_file = start_file + df
+            if 0 <= new_rank < 8 and 0 <= new_file < 8:
+                new_pos = new_rank * 8 + new_file + 1
+                if new_pos not in black_positions.values():
+                    valid_moves.append(new_pos)
+        if valid_moves:
+            new_pos = random.choice(valid_moves)
             black_positions[knightchosen] = new_pos
             print(f'Computer moved {knightchosen} to square {new_pos}.')
+            moved = True
+        else:
+            print(f'Computer tried to move {knightchosen}, but no valid moves were available.')
+
+
     def rook():
+        global moved
         rookchosen = random.choice(['br1', 'br2'])
         direction = random.choice(['up', 'down', 'left', 'right'])
         distancechosen = random.randint(1, 7)
@@ -56,13 +74,18 @@ def computermove():
         if path_clear and new_pos != start_pos:
             black_positions[rookchosen] = new_pos
             print(f'Computer moved {rookchosen} {direction} {distancechosen} spaces to square {new_pos}.')
+            moved = True
         else:
             print(f'Computer tried to move {rookchosen} {direction} {distancechosen} spaces, but path was blocked or out of bounds.')
-
     choice = computerchoose()
     if choice == 'br':
         rook()
     elif choice == 'bn':
         knight()
+    elif choice == 'bp':
+        pawn()
 print('Trying computer move...')
-computermove()
+moved = False
+while not moved:
+    computermove()
+print(black_positions)
