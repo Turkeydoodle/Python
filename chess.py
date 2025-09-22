@@ -1,4 +1,5 @@
 import random
+moved = False
 squares = list(range(1, 65))
 white_positions = {
     'wr1': 1,  'wn1': 2,  'wb1': 3,  'wq': 4,  'wk': 5,  'wb2': 6,  'wn2': 7,  'wr2': 8,
@@ -10,12 +11,45 @@ black_positions = {
 }
 def computermove():
     def computerchoose():
-        return random.choice(['br', 'bn', 'bp'])
+        return random.choice(['bp', 'bn', 'br'])
     def pawn():
         global moved
         pawnchosen = random.choice(['bp1', 'bp2', 'bp3', 'bp4', 'bp5', 'bp6', 'bp7', 'bp8'])
         start_pos = black_positions[pawnchosen]
-        new_pos = start_pos - random.choice([-8, -16, -9, -7])
+        start_file = (start_pos - 1) % 8
+        move_type = random.choice(['forward', 'double', 'capture_left', 'capture_right'])
+        if move_type == 'forward':
+            new_pos = start_pos - 8
+            if new_pos not in black_positions.values() and new_pos not in white_positions.values() and new_pos <= 64:
+                black_positions[pawnchosen] = new_pos
+                print(f'Computer moved {pawnchosen} forward to square {new_pos}.')
+                moved = True
+            else:
+                print(f'Computer tried to move {pawnchosen} forward to square {new_pos}, but the square is occupied with a black piece or out of bounds.')
+        elif move_type == 'double' and start_pos in range(49, 57):
+            new_pos = start_pos - 16
+            if new_pos not in black_positions.values() and new_pos not in white_positions.values() and new_pos <= 64:
+                black_positions[pawnchosen] = new_pos
+                print(f'Computer moved {pawnchosen} two squares forward to square {new_pos}.')
+                moved = True
+            else:
+                print(f'Computer tried to move {pawnchosen} forward to square {new_pos}, but the square is occupied with a black piece or out of bounds.')
+        elif move_type == 'capture_left' and start_file > 0:
+            new_pos = start_pos - 7
+            if new_pos in white_positions.values() and new_pos <= 64:
+                black_positions[pawnchosen] = new_pos
+                print(f'Computer moved {pawnchosen} to square {new_pos}, capturing a piece to the left.')
+                moved = True
+            else:
+                print(f'Computer tried to move {pawnchosen} forward to square {new_pos}, but the square is occupied with a black piece or out of bounds.')
+        elif move_type == 'capture_right' and start_file < 7:
+            new_pos = start_pos - 9
+            if new_pos in white_positions.values() and new_pos <= 64:
+                black_positions[pawnchosen] = new_pos
+                print(f'Computer moved {pawnchosen} to square {new_pos}, capturing a piece to the right.')
+                moved = True
+            else:
+                print(f'Computer tried to move {pawnchosen} forward to square {new_pos}, but the square is occupied with a black piece or out of bounds.')
     def knight():
         global moved
         knightchosen = random.choice(['bn1', 'bn2'])
@@ -39,8 +73,6 @@ def computermove():
             moved = True
         else:
             print(f'Computer tried to move {knightchosen}, but no valid moves were available.')
-
-
     def rook():
         global moved
         rookchosen = random.choice(['br1', 'br2'])
@@ -85,7 +117,6 @@ def computermove():
     elif choice == 'bp':
         pawn()
 print('Trying computer move...')
-moved = False
 while not moved:
     computermove()
 print(black_positions)
