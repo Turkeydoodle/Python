@@ -16,12 +16,28 @@ def chomp(text, body):
     else:
         raise ValueError("Expected " + text + ", got " + extract)
 
-#define parse head and parse body
-
 def parse_html(text):
     chomp('<html>', text)
-    #parse_and_text = parse_head(text)
-    #parse = parse_body(text)
+    parse_and_text = parse_head(text)
+    parse = parse_body(text)
     chomp('</html>', text)
-    #return {'head': parse_and_text, 'body': parse}
+    return {'head': parse_and_text, 'body': parse}
+
+def parse_head(text):
+    chomp('<head>')
+    while text[:len('</head>')] != '</head>':
+        try:
+            parse.append(parse_meta(text))
+        except:
+            print('No meta tag found')
+        try:
+            parse.append(parse_title(text))
+        except:
+            print('No title tag found')
+        try:
+            parse.append(parse_style(text))
+        except:
+            print('No style tag found')
+    chomp('</head>')
+    return {'parse':parse, 'text':text}
 parse(response.text)
