@@ -16,7 +16,7 @@ pygame.display.flip()
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.image.load("/home/kevintoddyu/Projects/Python/Dodge/content/images/enemy.jpg").convert_alpha()
+        self.image = pygame.image.load(r"\Users\user\OneDrive\Desktop\Personal\Productivity\Projects\Python\Dodge\content\images\enemy.jpg").convert_alpha()
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.image = pygame.transform.rotate(self.image, 180)
         self.rect = self.image.get_rect()
@@ -31,9 +31,9 @@ def produce_enemy():
 pposx = 270
 pposy = 530
 bgcolor = pygame.Color(253,56,91)
-imgPlayer = pygame.image.load("/home/kevintoddyu/Projects/Python/Dodge/content/images/41822.jpg").convert_alpha()
+imgPlayer = pygame.image.load(r"\Users\user\OneDrive\Desktop\Personal\Productivity\Projects\Python\Dodge\content\images\you.jpg").convert_alpha()
 imgPlayer = pygame.transform.scale(imgPlayer, (100, 100))
-imgSky = pygame.image.load("/home/kevintoddyu/Projects/Python/Dodge/content/images/pexels-pixabay-53594.jpg").convert()
+imgSky = pygame.image.load(r"\Users\user\OneDrive\Desktop\Personal\Productivity\Projects\Python\Dodge\content\images\pexels-pixabay-53594.jpg").convert()
 player_rect = imgPlayer.get_rect()
 player_rect.topleft = (pposx, pposy)
 fps = 30
