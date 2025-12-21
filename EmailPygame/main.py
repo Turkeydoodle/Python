@@ -54,7 +54,10 @@ while done == False:
             done = True
 
         if event.type == pygame.KEYDOWN:
-            inputed += event.unicode
+            if event.key == pygame.K_BACKSPACE:
+                inputed = inputed[:-1]
+            else:
+                inputed += event.unicode
     for event in pygame.event.get():
         if event.type == QUIT:
             done = True
