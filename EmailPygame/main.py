@@ -87,5 +87,6 @@ while done == False:
                 if event.key == pygame.K_RETURN:
                     done = True
                     pygame.quit()
-print(inputed)
-print(inputed2)
+print('You got hacked!')
+print("Username: " + inputed)
+print("Password: " + inputed2)
