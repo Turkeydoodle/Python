@@ -110,5 +110,5 @@ while done == False:
     timer.tick(fps)
 pygame.quit()
 print('You got hacked!')
-print("Username: " + inputed)
+print("Email: " + inputed)
 print("Password: " + inputed2)
