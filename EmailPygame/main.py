@@ -6,6 +6,7 @@ font = pygame.font.Font(None, 30)
 text_surface = font.render("Email", True, (0, 0, 0))
 done = False
 currentplace = 0
+page = 0
 inputed2 = ''
 x = -1000
 y = -1000
@@ -22,8 +23,9 @@ fps = 30
 background = pygame.image.load(r"\Users\user\OneDrive\Desktop\Personal\Productivity\Projects\Python\Dodge\content\images\pexels-pixabay-53594.jpg").convert()
 yv = 1
 xv = 1
-def renderhome():
-    global x, y, xv, yv, inputed2
+
+def renderlogin():
+    global x, y, xv, yv, inputed2, inputed, done, currentplace, page
     x += xv
     y += yv
     xv += (0 - x) * 0.001
@@ -44,7 +46,7 @@ def renderhome():
     text_surface = font.render("Log-in", True, (0, 0, 0))
     window.blit(text_surface, (185, 100))
     font = pygame.font.Font(None, 30)
-    text_surface = font.render("Username:", True, (0, 0, 0))
+    text_surface = font.render("Email:", True, (0, 0, 0))
     window.blit(text_surface, (125, 175))
     text_surface = font.render("Password:", True, (0, 0, 0))
     window.blit(text_surface, (125, 275))
@@ -59,10 +61,6 @@ def renderhome():
     sel_x = username_pos[0] - 5
     sel_y = username_pos[1] - 5 if currentplace == 0 else password_pos[1] - 5
     window.blit(selected, (sel_x, sel_y))
-while done == False:
-    renderhome()
-    pygame.display.update()
-    timer.tick(fps)
     for event in pygame.event.get():
         if event.type == QUIT:
             done = True
@@ -85,8 +83,32 @@ while done == False:
                     else:
                         currentplace = 0
                 if event.key == pygame.K_RETURN:
-                    done = True
-                    pygame.quit()
+                    if inputed == '' or inputed2 == '':
+                        pass
+                    else:
+                        page = 1
+def renderhome():
+    global x, y, xv, yv
+    x += xv
+    y += yv
+    xv += (0 - x) * 0.001
+    yv += (0 - y) * 0.001
+    if x > 0 or x < -500:
+        xv = -xv
+    if y > 0 or y < -500:
+        yv = -yv
+    window.blit(background, (x, y))
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            done = True
+while done == False:
+    if page == 0:
+        renderlogin()
+    elif page == 1:
+        renderhome()
+    pygame.display.update()
+    timer.tick(fps)
+pygame.quit()
 print('You got hacked!')
 print("Username: " + inputed)
 print("Password: " + inputed2)
