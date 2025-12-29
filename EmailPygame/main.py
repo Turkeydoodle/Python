@@ -10,6 +10,7 @@ page = 0
 inputed2 = ''
 x = -1000
 y = -1000
+menuicons = ['Inbox','Sent','Trash','Settings','Log Out']
 inputed = ''
 screenwidth = 500
 screenheight = 500
@@ -17,15 +18,26 @@ window = pygame.display.set_mode( ( screenwidth,screenheight ) )
 username = pygame.surface.Surface((250, 50))
 password = pygame.surface.Surface((250, 50))
 selected = pygame.surface.Surface((260, 60), pygame.SRCALPHA)
+def blitmenu():
+    for i in range(5):
+        block = pygame.surface.Surface((150, 50))
+        block.fill((255,255,255))
+        window.blit(block, (25, 100+(i*75)))
+        font = pygame.font.Font(None, 30)
+        text_surface = font.render(menuicons[i], True, (0, 0, 0))
+        window.blit(text_surface, (50, 115+(i*75)))
+    block = pygame.surface.Surface((280, 350))
+    block.fill((255,255,255))
+    window.blit(block, (200, 100))    
 window.blit(username, (100, 100))
 pygame.display.set_caption( "Email" )
 fps = 30
 background = pygame.image.load(r"\Users\user\OneDrive\Desktop\Personal\Productivity\Projects\Python\Dodge\content\images\pexels-pixabay-53594.jpg").convert()
 yv = 1
 xv = 1
-
+name = inputed.partition('@')[0]
 def renderlogin():
-    global x, y, xv, yv, inputed2, inputed, done, currentplace, page
+    global x, y, xv, yv, inputed2, inputed, done, currentplace, page, name
     x += xv
     y += yv
     xv += (0 - x) * 0.001
@@ -88,7 +100,7 @@ def renderlogin():
                     else:
                         page = 1
 def renderhome():
-    global x, y, xv, yv
+    global x, y, xv, yv, text_surface, done, name
     x += xv
     y += yv
     xv += (0 - x) * 0.001
@@ -101,6 +113,11 @@ def renderhome():
     for event in pygame.event.get():
         if event.type == QUIT:
             done = True
+    font = pygame.font.Font(None, 50)
+    name = inputed.partition('@')[0]
+    text_surface = font.render("Welcome, " + name, True, (0, 0, 0))
+    blitmenu()
+    window.blit(text_surface, (25, 25))
 while done == False:
     if page == 0:
         renderlogin()
@@ -109,6 +126,6 @@ while done == False:
     pygame.display.update()
     timer.tick(fps)
 pygame.quit()
-print('You got hacked!')
+print('Program executed successfully. Pygame.quit() called.')
 print("Email: " + inputed)
 print("Password: " + inputed2)
