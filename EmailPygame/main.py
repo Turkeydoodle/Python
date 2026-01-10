@@ -6,6 +6,7 @@ font = pygame.font.Font(None, 30)
 text_surface = font.render("Email", True, (0, 0, 0))
 done = False
 currentplace = 0
+mcurrentplace = 0
 page = 0
 inputed2 = ''
 x = -1000
@@ -14,10 +15,13 @@ menuicons = ['Inbox','Sent','Trash','Settings','Log Out']
 inputed = ''
 screenwidth = 500
 screenheight = 500
-window = pygame.display.set_mode( ( screenwidth,screenheight ) )
+window = pygame.display.set_mode((screenwidth,screenheight ) )
 username = pygame.surface.Surface((250, 50))
 password = pygame.surface.Surface((250, 50))
 selected = pygame.surface.Surface((260, 60), pygame.SRCALPHA)
+selectedm = pygame.surface.Surface((160, 60))
+currentwin = 0
+winselect  = pygame.surface.Surface((10, 10))
 def blitmenu():
     for i in range(5):
         block = pygame.surface.Surface((150, 50))
@@ -100,7 +104,7 @@ def renderlogin():
                     else:
                         page = 1
 def renderhome():
-    global x, y, xv, yv, text_surface, done, name
+    global x, y, xv, yv, text_surface, done, name, mcurrentplace, page, inputed, currentwin, inputed2
     x += xv
     y += yv
     xv += (0 - x) * 0.001
@@ -110,14 +114,31 @@ def renderhome():
     if y > 0 or y < -500:
         yv = -yv
     window.blit(background, (x, y))
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            done = True
     font = pygame.font.Font(None, 50)
     name = inputed.partition('@')[0]
     text_surface = font.render("Welcome, " + name, True, (0, 0, 0))
+    sel_x = 20
+    sel_y = 95 + (mcurrentplace * 75)
+    window.blit(selectedm, (sel_x, sel_y))
     blitmenu()
+    sel_x = 150
+    sel_y = 115 + (currentwin * 75)
+    window.blit(winselect, (sel_x, sel_y))
     window.blit(text_surface, (25, 25))
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            done = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_TAB:
+                mcurrentplace += 1
+                if mcurrentplace > 4:
+                    mcurrentplace = 0   
+            if event.key == pygame.K_RETURN:
+                currentwin = mcurrentplace
+                if menuicons[currentwin] == 'Log Out':
+                    page = 0
+                    inputed = ''
+                    inputed2 = ''
 while done == False:
     if page == 0:
         renderlogin()
