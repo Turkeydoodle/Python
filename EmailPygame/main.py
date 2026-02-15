@@ -7,33 +7,31 @@ text_surface = font.render("Email", True, (0, 0, 0))
 done = False
 currentplace = 0
 mcurrentplace = 0
+inboxcurrentplace = 0
 page = 0
 inputed2 = ''
 x = -1000
 y = -1000
 menuicons = ['Inbox','Sent','Trash','Settings','Log Out']
 inputed = ''
-currentpage = 'home'  # Track current page/view
+currentpage = 'home' 
 screenwidth = 500
 screenheight = 500
 window = pygame.display.set_mode((screenwidth,screenheight ) )
 username = pygame.surface.Surface((250, 50))
 password = pygame.surface.Surface((250, 50))
 selected = pygame.surface.Surface((260, 60), pygame.SRCALPHA)
-selectedm = pygame.surface.Surface((160, 60))
+selectedm = pygame.surface.Surface((460, 60))
 currentwin = 0
 winselect  = pygame.surface.Surface((10, 10))
 def blitmenu():
     for i in range(5):
-        block = pygame.surface.Surface((150, 50))
+        block = pygame.surface.Surface((450, 50))
         block.fill((255,255,255))
         window.blit(block, (25, 100+(i*75)))
         font = pygame.font.Font(None, 30)
         text_surface = font.render(menuicons[i], True, (0, 0, 0))
-        window.blit(text_surface, (50, 115+(i*75)))
-    block = pygame.surface.Surface((280, 350))
-    block.fill((255,255,255))
-    window.blit(block, (200, 100))    
+        window.blit(text_surface, (50, 115+(i*75)))  
 window.blit(username, (100, 100))
 pygame.display.set_caption( "Email" )
 fps = 30
@@ -104,9 +102,29 @@ def renderlogin():
                         pass
                     else:
                         page = 1
-nummessagees = 5
-def renderinbox():
+nummessagees = 2
+imessagenames = ["Welcome to Kmail!", "Send an Email"]
+imessagemessage = ['Hello! Thanks for choosing Kmail!\nHope you enjoy it!\nSincerely,\nThe developer of Kmail', 'To send an email, perform the following steps:\n1. Go to the "sent" folder\n2. Navigate to "draft"\n3. Compose and send!']
+def renderimessage(chosenemail):
     global x, y, xv, yv, done, currentpage, mcurrentplace
+    x += xv
+    y += yv
+    xv += (0 - x) * 0.001
+    yv += (0 - y) * 0.001
+    if x > 0 or x < -500:
+        xv = -xv
+    if y > 0 or y < -500:
+        yv = -yv
+    window.blit(background, (x, y))
+    font = pygame.font.Font(None, 50)
+    text_surface = font.render(imessagenames[chosenemail], True, (0, 0, 0))
+    window.blit(text_surface, (25, 25))
+    block = pygame.surface.Surface((300, 300))
+    block.fill((255,255,255))
+    window.blit(block, (100, 100))
+    
+def renderinbox():
+    global x, y, xv, yv, done, currentpage, mcurrentplace, page, inboxcurrentplace
     x += xv
     y += yv
     xv += (0 - x) * 0.001
@@ -120,22 +138,38 @@ def renderinbox():
     text_surface = font.render("Inbox", True, (0, 0, 0))
     window.blit(text_surface, (25, 25))
     for i in range(nummessagees):
+        sel_x = 20
+        sel_y = 95 + (mcurrentplace * 75)
+        window.blit(selectedm, (sel_x, sel_y))
         block = pygame.surface.Surface((250, 50))
         block.fill((255,255,255))
         window.blit(block, (125, 110+(i*60)))
         font = pygame.font.Font(None, 30)
-        text_surface = font.render("Message " + str(i+1), True, (0, 0, 0))
+        text_surface = font.render(imessagenames[i], True, (0, 0, 0))
         window.blit(text_surface, (130, 125+(i*60)))
+        sel_x = 450
+        sel_y = 115 + (currentwin * 75)
+    window.blit(winselect, (sel_x, sel_y))
+    window.blit(text_surface, (25, 25))
     font = pygame.font.Font(None, 30)
-    text_surface = font.render("Press TAB to go back", True, (0, 0, 0))
+    text_surface = font.render("Press SPACE to go back", True, (0, 0, 0))
     window.blit(text_surface, (125, 450)) 
     for event in pygame.event.get():
         if event.type == QUIT:
             done = True
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_TAB:
+            if event.key == pygame.K_SPACE:
                 currentpage = 'home'
                 mcurrentplace = 0
+            if event.key == pygame.K_TAB:
+                if inboxcurrentplace > nummessagees:
+                    inboxcurrentplace = 0
+                else:
+                    inboxcurrentplace += 1
+            if event.key == pygame.K_RETURN:
+                page = 2
+                currentpage = inboxcurrentplace
+            
 
 def rendersent():
     pass
@@ -161,7 +195,7 @@ def renderhome():
     sel_y = 95 + (mcurrentplace * 75)
     window.blit(selectedm, (sel_x, sel_y))
     blitmenu()
-    sel_x = 150
+    sel_x = 450
     sel_y = 115 + (currentwin * 75)
     window.blit(winselect, (sel_x, sel_y))
     window.blit(text_surface, (25, 25))
@@ -201,6 +235,9 @@ while not done:
             rendertrash()
         elif currentpage == 'settings':
             rendersettings()
+    elif page == 2:
+        if currentpage == 0:
+            renderimessage(0)
     pygame.display.update()
     timer.tick(fps)
 
