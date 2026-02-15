@@ -24,7 +24,7 @@ selected = pygame.surface.Surface((260, 60), pygame.SRCALPHA)
 selectedm = pygame.surface.Surface((460, 60))
 selectedinbox = pygame.surface.Surface((460, 60), pygame.SRCALPHA)
 selectedinbox.fill((0,0,0,0))
-pygame.draw.rect(selectedinbox, (0,0,0), selectedinbox.get_rect(), 3)
+pygame.draw.rect(selectedinbox, (0,0,0), selectedinbox.get_rect(), 5)
 currentwin = 0
 winselect  = pygame.surface.Surface((10, 10))
 def blitmenu():
@@ -109,7 +109,7 @@ nummessagees = 2
 imessagenames = ["Welcome to Kmail!", "Send an Email"]
 imessagemessage = ['Hello! Thanks for choosing Kmail!\nHope you enjoy it!\nSincerely,\nThe developer of Kmail', 'To send an email, perform the following steps:\n1. Go to the "sent" folder\n2. Navigate to "draft"\n3. Compose and send!']
 def renderimessage(chosenemail):
-    global x, y, xv, yv, done, currentpage, mcurrentplace
+    global x, y, xv, yv, done, currentpage, inboxcurrentplace, page
     x += xv
     y += yv
     xv += (0 - x) * 0.001
@@ -122,10 +122,26 @@ def renderimessage(chosenemail):
     font = pygame.font.Font(None, 50)
     text_surface = font.render(imessagenames[chosenemail], True, (0, 0, 0))
     window.blit(text_surface, (25, 25))
-    block = pygame.surface.Surface((300, 300))
+    block = pygame.surface.Surface((450, 350))
     block.fill((255,255,255))
-    window.blit(block, (100, 100))
-    
+    window.blit(block, (25, 75))
+    font = pygame.font.Font(None, 30)
+    lines = imessagemessage[chosenemail].split('\n')
+    y_offset = 80
+    for line in lines:
+        text_surface = font.render(line, True, (0, 0, 0))
+        window.blit(text_surface, (30, y_offset))
+        y_offset += 35 
+    font = pygame.font.Font(None, 30)
+    text_surface = font.render("Press SPACE to go back", True, (0, 0, 0))
+    window.blit(text_surface, (125, 450)) 
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            done = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                currentpage = 'inbox'
+                inboxcurrentplace = 0
 def renderinbox():
     global x, y, xv, yv, done, currentpage, mcurrentplace, page, inboxcurrentplace
     x += xv
@@ -141,7 +157,7 @@ def renderinbox():
     text_surface = font.render("Inbox", True, (0, 0, 0))
     window.blit(text_surface, (25, 25))
     sel_x = 20
-    sel_y = 100 + (inboxcurrentplace * 60)
+    sel_y = 100 + (inboxcurrentplace * 60) - 5
     window.blit(selectedinbox, (sel_x, sel_y))
     for i in range(nummessagees):
         block = pygame.surface.Surface((450, 50))
