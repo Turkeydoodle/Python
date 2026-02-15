@@ -250,8 +250,7 @@ while not done:
         elif currentpage == 'settings':
             rendersettings()
     elif page == 2:
-        if currentpage == 0:
-            renderimessage(0)
+        renderimessage(currentpage)
     pygame.display.update()
     timer.tick(fps)
 
