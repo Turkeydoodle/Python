@@ -13,6 +13,7 @@ x = -1000
 y = -1000
 menuicons = ['Inbox','Sent','Trash','Settings','Log Out']
 inputed = ''
+currentpage = 'home'  # Track current page/view
 screenwidth = 500
 screenheight = 500
 window = pygame.display.set_mode((screenwidth,screenheight ) )
@@ -103,8 +104,47 @@ def renderlogin():
                         pass
                     else:
                         page = 1
+nummessagees = 5
+def renderinbox():
+    global x, y, xv, yv, done, currentpage, mcurrentplace
+    x += xv
+    y += yv
+    xv += (0 - x) * 0.001
+    yv += (0 - y) * 0.001
+    if x > 0 or x < -500:
+        xv = -xv
+    if y > 0 or y < -500:
+        yv = -yv
+    window.blit(background, (x, y))
+    font = pygame.font.Font(None, 50)
+    text_surface = font.render("Inbox", True, (0, 0, 0))
+    window.blit(text_surface, (25, 25))
+    for i in range(nummessagees):
+        block = pygame.surface.Surface((250, 50))
+        block.fill((255,255,255))
+        window.blit(block, (125, 110+(i*60)))
+        font = pygame.font.Font(None, 30)
+        text_surface = font.render("Message " + str(i+1), True, (0, 0, 0))
+        window.blit(text_surface, (130, 125+(i*60)))
+    font = pygame.font.Font(None, 30)
+    text_surface = font.render("Press TAB to go back", True, (0, 0, 0))
+    window.blit(text_surface, (125, 450)) 
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            done = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_TAB:
+                currentpage = 'home'
+                mcurrentplace = 0
+
+def rendersent():
+    pass
+def rendertrash():
+    pass
+def rendersettings():
+    pass
 def renderhome():
-    global x, y, xv, yv, text_surface, done, name, mcurrentplace, page, inputed, currentwin, inputed2
+    global x, y, xv, yv, text_surface, done, name, mcurrentplace, page, inputed, currentwin, inputed2, currentpage
     x += xv
     y += yv
     xv += (0 - x) * 0.001
@@ -139,13 +179,31 @@ def renderhome():
                     page = 0
                     inputed = ''
                     inputed2 = ''
-while done == False:
+                elif menuicons[currentwin] == 'Settings':
+                    currentpage = 'settings'
+                elif menuicons[currentwin] == 'Inbox':
+                    currentpage = 'inbox'
+                elif menuicons[currentwin] == 'Sent':
+                    currentpage = 'sent'
+                elif menuicons[currentwin] == 'Trash':
+                    currentpage = 'trash'
+while not done:
     if page == 0:
         renderlogin()
     elif page == 1:
-        renderhome()
+        if currentpage == 'home':
+            renderhome()
+        elif currentpage == 'inbox':
+            renderinbox()
+        elif currentpage == 'sent':
+            rendersent()
+        elif currentpage == 'trash':
+            rendertrash()
+        elif currentpage == 'settings':
+            rendersettings()
     pygame.display.update()
     timer.tick(fps)
+
 pygame.quit()
 print('Program executed successfully. Pygame.quit() called.')
 print("Email: " + inputed)
