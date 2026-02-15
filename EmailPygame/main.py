@@ -22,6 +22,9 @@ username = pygame.surface.Surface((250, 50))
 password = pygame.surface.Surface((250, 50))
 selected = pygame.surface.Surface((260, 60), pygame.SRCALPHA)
 selectedm = pygame.surface.Surface((460, 60))
+selectedinbox = pygame.surface.Surface((460, 60), pygame.SRCALPHA)
+selectedinbox.fill((0,0,0,0))
+pygame.draw.rect(selectedinbox, (0,0,0), selectedinbox.get_rect(), 3)
 currentwin = 0
 winselect  = pygame.surface.Surface((10, 10))
 def blitmenu():
@@ -137,20 +140,16 @@ def renderinbox():
     font = pygame.font.Font(None, 50)
     text_surface = font.render("Inbox", True, (0, 0, 0))
     window.blit(text_surface, (25, 25))
+    sel_x = 20
+    sel_y = 100 + (inboxcurrentplace * 60)
+    window.blit(selectedinbox, (sel_x, sel_y))
     for i in range(nummessagees):
-        sel_x = 20
-        sel_y = 95 + (mcurrentplace * 75)
-        window.blit(selectedm, (sel_x, sel_y))
-        block = pygame.surface.Surface((250, 50))
+        block = pygame.surface.Surface((450, 50))
         block.fill((255,255,255))
-        window.blit(block, (125, 110+(i*60)))
+        window.blit(block, (25, 100+(i*60)))
         font = pygame.font.Font(None, 30)
         text_surface = font.render(imessagenames[i], True, (0, 0, 0))
-        window.blit(text_surface, (130, 125+(i*60)))
-        sel_x = 450
-        sel_y = 115 + (currentwin * 75)
-    window.blit(winselect, (sel_x, sel_y))
-    window.blit(text_surface, (25, 25))
+        window.blit(text_surface, (45, 115+(i*60)))
     font = pygame.font.Font(None, 30)
     text_surface = font.render("Press SPACE to go back", True, (0, 0, 0))
     window.blit(text_surface, (125, 450)) 
@@ -162,10 +161,9 @@ def renderinbox():
                 currentpage = 'home'
                 mcurrentplace = 0
             if event.key == pygame.K_TAB:
-                if inboxcurrentplace > nummessagees:
+                inboxcurrentplace += 1
+                if inboxcurrentplace >= nummessagees:
                     inboxcurrentplace = 0
-                else:
-                    inboxcurrentplace += 1
             if event.key == pygame.K_RETURN:
                 page = 2
                 currentpage = inboxcurrentplace
