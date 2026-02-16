@@ -3,7 +3,7 @@ from pygame.locals import *
 pygame.init()
 timer = pygame.time.Clock()
 font = pygame.font.Font(None, 30)
-text_surface = font.render("Email", True, (0, 0, 0))
+text_surface = font.render("Kmail", True, (0, 0, 0))
 done = False
 currentplace = 0
 mcurrentplace = 0
@@ -37,7 +37,7 @@ def blitmenu():
         text_surface = font.render(menuicons[i], True, (0, 0, 0))
         window.blit(text_surface, (50, 115+(i*75)))
 window.blit(username, (100, 100))
-pygame.display.set_caption( "Email" )
+pygame.display.set_caption( "Kmail" )
 fps = 30
 background = pygame.image.load(r"\Users\user\OneDrive\Desktop\Personal\Productivity\Projects\Python\Dodge\content\images\pexels-pixabay-53594.jpg").convert()
 yv = 1
