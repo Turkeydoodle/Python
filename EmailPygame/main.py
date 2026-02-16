@@ -98,9 +98,9 @@ def renderlogin():
                         pass
                     else:
                         page = 1
-nummessagees = 2
-imessagenames = ["Welcome to Kmail!", "Send an Email"]
-imessagemessage = ['Hello! Thanks for choosing Kmail!\nHope you enjoy it!\nSincerely,\nThe developer of Kmail', 'To send an email, perform the following steps:\n1. Go to the "sent" folder\n2. Navigate to "draft"\n3. Compose and send!']
+numimessagees = 4
+imessagenames = ["Welcome to Kmail!", "Send an Email", "Deleting an email", 'How to use the trash folder']
+imessagemessage = ['Hello! Thanks for choosing Kmail!\nHope you enjoy it!\nSincerely,\nThe developer of Kmail', 'To send an email, perform the following steps:\n1. Go to the "sent" folder\n2. Navigate to "draft"\n3. Compose and send!', 'To delete an email, do the following steps:\n1. Go to the "inbox" folder\n2. Select the email you want to delete\n3. Press the delete key!\nSimple and easy!','Here is how to use the trash folder:\nEnter any email in the trash folder\nPress the following to:\n1. Delete permanently: Press the delete key\n2. Restore email: Press the tab key\n3. Go back to inbox: Press space']
 def renderimessage(chosenemail):
     global x, y, xv, yv, done, currentpage, inboxcurrentplace, page
     window.blit(background, (0, 0))
@@ -137,7 +137,7 @@ def renderinbox():
     sel_x = 20
     sel_y = 100 + (inboxcurrentplace * 60) - 5
     window.blit(selectedinbox, (sel_x, sel_y))
-    for i in range(nummessagees):
+    for i in range(numimessagees):
         block = pygame.surface.Surface((450, 50))
         block.fill((255,255,255))
         window.blit(block, (25, 100+(i*60)))
