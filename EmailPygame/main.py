@@ -156,7 +156,7 @@ def renderinbox():
                 mcurrentplace = 0
             if event.key == pygame.K_TAB:
                 inboxcurrentplace += 1
-                if inboxcurrentplace >= nummessagees:
+                if inboxcurrentplace >= numimessagees:
                     inboxcurrentplace = 0
             if event.key == pygame.K_RETURN:
                 selected_email = inboxcurrentplace
