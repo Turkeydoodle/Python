@@ -51,7 +51,7 @@ def renderlogin():
     username_pos = (125, 200)
     password_pos = (125, 300)
     font = pygame.font.Font(None, 30)
-    text_surface = font.render("Email   Log-in", True, (0, 0, 0))
+    text_surface = font.render("Kmail   Log-in", True, (0, 0, 0))
     window.blit(text_surface, (10, 10))
     font = pygame.font.Font(None, 50)
     text_surface = font.render("Log-in", True, (0, 0, 0))
