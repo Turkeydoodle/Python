@@ -12,7 +12,7 @@ page = 0
 inputed2 = ''
 x = -1000
 y = -1000
-menuicons = ['Inbox','Sent','Trash','Settings','Log Out']
+menuicons = ['Inbox','Sent','UNDER CONSTRUCTION','UNDER CONSTRUCTION','Log Out']
 inputed = ''
 currentpage = 'home'
 scurrentplace = 0
@@ -102,10 +102,10 @@ def renderlogin():
                         page = 1
 numimessagees = 4
 imessagenames = ["Welcome to Kmail!", "Send an Email", "Deleting an email", 'How to use the trash folder']
-imessagemessage = ['Hello! Thanks for choosing Kmail!\nHope you enjoy it!\nSincerely,\nThe developer of Kmail', 'To send an email, perform the following steps:\n1. Go to the "sent" folder\n2. Navigate to "draft"\n3. Compose and send!', 'To delete an email, do the following steps:\n1. Go to the "inbox" folder\n2. Select the email you want to delete\n3. Press the delete key!\nSimple and easy!','Here is how to use the trash folder:\nEnter any email in the trash folder\nPress the following to:\n1. Delete permanently: Press the delete key\n2. Restore email: Press the tab key\n3. Go back to inbox: Press space']
-numsmessages = 0
-smessagenames = []
-smessagemessage = []
+imessagemessage = ['Hello! Thanks for choosing Kmail!\nHope you enjoy it!\nSincerely,\nThe developer of Kmail', 'To send an email, perform the following steps:\n1. Go to the "sent" folder\n2. Click the "N" key.\n3. Compose and send!', 'To delete an email, do the following steps:\n1. Go to the "inbox" folder\n2. Select the email you want to delete\n3. Press the delete key!\nSimple and easy!','Here is how to use the trash folder:\nEnter any email in the trash folder\nPress the following to:\n1. Delete permanently: Press the delete key\n2. Restore email: Press the tab key\n3. Go back to inbox: Press space']
+numsmessages = 1
+smessagenames = ["Sent Email Example"]
+smessagemessage = ["This email has not been sent by you!\nThis is just an example email to show how\nthe sent folder works!\nSincerely,\nThe developer of Kmail"]
 def renderimessage(chosenemail):
     global x, y, xv, yv, done, currentpage, inboxcurrentplace, page
     window.blit(background, (0, 0))
@@ -132,6 +132,33 @@ def renderimessage(chosenemail):
             if event.key == pygame.K_SPACE:
                 currentpage = 'inbox'
                 inboxcurrentplace = 0
+                page = 1
+def rendersmessage(chosenemail):
+    global x, y, xv, yv, done, currentpage, scurrentplace, page
+    window.blit(background, (0, 0))
+    font = pygame.font.Font(None, 50)
+    text_surface = font.render(smessagenames[chosenemail], True, (0, 0, 0))
+    window.blit(text_surface, (25, 25))
+    block = pygame.surface.Surface((450, 350))
+    block.fill((255,255,255))
+    window.blit(block, (25, 75))
+    font = pygame.font.Font(None, 30)
+    lines = smessagemessage[chosenemail].split('\n')
+    y_offset = 80
+    for line in lines:
+        text_surface = font.render(line, True, (0, 0, 0))
+        window.blit(text_surface, (30, y_offset))
+        y_offset += 35
+    font = pygame.font.Font(None, 30)
+    text_surface = font.render("Press SPACE to go back", True, (0, 0, 0))
+    window.blit(text_surface, (125, 450))
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            done = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                currentpage = 'sent'
+                scurrentplace = 0
                 page = 1
 def renderinbox():
     global x, y, xv, yv, done, currentpage, mcurrentplace, page, inboxcurrentplace, selected_email
@@ -172,6 +199,9 @@ def rendersent():
     font = pygame.font.Font(None, 50)
     text_surface = font.render("Sent", True, (0, 0, 0))
     window.blit(text_surface, (25, 25))
+    font = pygame.font.Font(None, 30)
+    text_surface = font.render("Click 'N' to compose.", True, (0, 0, 0))
+    window.blit(text_surface, (150, 37.5))
     sel_x = 20
     sel_y = 100 + (scurrentplace * 60) - 5
     if numsmessages != 0 :
@@ -205,6 +235,9 @@ def rendersent():
                 scurrentplace += 1
                 if scurrentplace >= numsmessages:
                     scurrentplace = 0
+            if event.key == pygame.K_RETURN and numsmessages != 0:
+                selected_email = scurrentplace
+                page = 2
 def rendertrash():
     pass
 def rendersettings():
@@ -262,8 +295,10 @@ while not done:
         elif this_currentpage == 'settings':
             rendersettings()
     elif this_page == 2:
-        renderimessage(selected_email)
-
+        if this_currentpage == 'inbox':
+            renderimessage(selected_email)
+        elif this_currentpage == 'sent':
+            rendersmessage(selected_email)
     pygame.display.update()
     timer.tick(fps)
 pygame.quit()
