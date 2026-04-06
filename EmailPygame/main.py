@@ -238,6 +238,16 @@ def rendersent():
             if event.key == pygame.K_RETURN and numsmessages != 0:
                 selected_email = scurrentplace
                 page = 2
+def composenewmessage():
+    global x, y, xv, yv, done, currentpage, scurrentplace, page
+    window.blit(background, (0, 0))
+    font = pygame.font.Font(None, 50)
+    text_surface = font.render("new mail", True, (0, 0, 0))
+    window.blit(text_surface, (25, 25))
+    block = pygame.surface.Surface((450, 350))
+    block.fill((255,255,255))
+    window.blit(block, (25, 75))
+    font = pygame.font.Font(None, 30)
 def rendertrash():
     pass
 def rendersettings():
@@ -299,6 +309,8 @@ while not done:
             renderimessage(selected_email)
         elif this_currentpage == 'sent':
             rendersmessage(selected_email)
+        elif this_currentpage == 'sent':
+            composenewmessage()
     pygame.display.update()
     timer.tick(fps)
 pygame.quit()
