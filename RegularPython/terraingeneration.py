@@ -3,7 +3,7 @@ terrain_choices = ["grass", "dirt", "stone", "gravel"]
 terrain = [['', '', '', '', ''],['', '', '', '', ''], ['', '', '', '', ''], ['', '', '', '', ''], ['', '', '', '', '']]
 def generate(timestogenerate):
     terrain[0][0] = terrain_choices[random.randint(0,3)]
-    if timestogenerate <= 200000:
+    if timestogenerate <= 5:
         for i in range(timestogenerate):
             gchance = 25
             dchance = 25
@@ -31,10 +31,39 @@ def generate(timestogenerate):
             elif random_choice <= gchance+dchance+schance+vchance:
                 terrain[0][i-1] = "gravel"
     else:
-        pass
+        columnstomake = min(timestogenerate, 5)
+        if columnstomake <= 5:
+            for i in range(columnstomake):
+                terrain[i][0] = terrain_choices[random.randint(0,3)]
+                for j in range(timestogenerate):
+                    gchance = 25
+                    dchance = 25
+                    schance = 25
+                    vchance = 25
+                    if terrain[i][j-2] == "grass":
+                        gchance += 20
+                        vchance -= 20
+                    elif terrain[i][j-2] == "dirt":
+                        dchance += 20
+                        schance -= 20
+                    elif terrain[i][j-2] == "stone":
+                        schance += 20
+                        dchance -= 20
+                    elif terrain[i][j-2] == "gravel":
+                        vchance += 20
+                        gchance -= 20
+                    random_choice = random.randint(1, 100)
+                    if random_choice <= gchance:
+                        terrain[0][i-1] = "grass"
+                    elif random_choice <= gchance+dchance:
+                        terrain[0][i-1] = 'dirt'
+                    elif random_choice <= gchance+dchance+schance:
+                        terrain[0][i-1] = "stone"
+                    elif random_choice <= gchance+dchance+schance+vchance:
+                        terrain[0][i-1] = "gravel"    
 def print_terrain():
     for i in range(len(terrain)):
         for j in range(len(terrain[i-1])):
             print(terrain[i-1][j-1])
-generate(25)
+generate(10)
 print_terrain()
