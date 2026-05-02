@@ -70,7 +70,7 @@ def render_terrain():
 
     speed(0)
     penup()
-    goto(-475, 300)  # Start inside the visible window
+    goto(-475, 350)  # Start inside the visible window
     pendown()
 
     for i in range(grid):
@@ -96,8 +96,9 @@ def render_terrain():
             end_fill()
 
             forward(tile)
-
+        penup()
         backward(grid * tile)
+        pendown()
         right(90)
         forward(tile)
         left(90)
