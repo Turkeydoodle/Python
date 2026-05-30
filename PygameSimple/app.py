@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 pygame.init()
-size = [width, height] = [pygame.display.Info().current_w, pygame.display.Info().current_h]
+size = [width, height] = [pygame.display.Info().current_w//2, pygame.display.Info().current_h//2]
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Pygame Fish")
 clock = pygame.time.Clock()
@@ -14,5 +14,5 @@ def main():
                 pygame.quit()
                 return
         screen.fill(background)
-        pygame.display.update()
+        pygame.display.flip()
 main()
