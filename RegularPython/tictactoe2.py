@@ -66,7 +66,7 @@ def main():
         print("Player 2 pieces: "+str(playerpieces2))
         checkforwin()
     else:
-        if player1win = True:
+        if player1win == True:
             print("Win detected, player 1 has won.")
         else:
             print("Win detected, player 2 has won.")
