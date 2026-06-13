@@ -48,9 +48,13 @@ def checkforwin():
     for i in range(8):
         if winconditions[i-1][0] in playerpieces1 and winconditions[i-1][1] in playerpieces1 and winconditions[i-1][2] in playerpieces1:
             player1win = True
+    for i in range(8):
+        if winconditions[i-1][0] in playerpieces2 and winconditions[i-1][1] in playerpieces2 and winconditions[i-1][2] in playerpieces2:
+            player2win = True
+    
 def main():
+    playernumber = 1
     while player1win == False and player2win == False:
-        playernumber = 1
         if playernumber == 1:
             userinput(1)
             playernumber = 2
@@ -58,11 +62,14 @@ def main():
             userinput(2)
             playernumber = 1
         printboard()
-        print("Player 1 pieces: "+playerpieces1)
-        print("Player 2 pieces: "+playerpieces2)
+        print("Player 1 pieces: "+str(playerpieces1))
+        print("Player 2 pieces: "+str(playerpieces2))
         checkforwin()
     else:
-        print("Win detected, player has won.")
+        if player1win = True:
+            print("Win detected, player 1 has won.")
+        else:
+            print("Win detected, player 2 has won.")
 createboard()
 printboard()
 main()
