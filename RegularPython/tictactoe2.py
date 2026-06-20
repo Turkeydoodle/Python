@@ -62,8 +62,6 @@ def main():
             userinput(2)
             playernumber = 1
         printboard()
-        print("Player 1 pieces: "+str(playerpieces1))
-        print("Player 2 pieces: "+str(playerpieces2))
         checkforwin()
     else:
         if player1win == True:
